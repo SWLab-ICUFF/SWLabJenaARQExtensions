@@ -1,0 +1,13 @@
+uff/ic/swlab/jena/sparql/function/fuzzyScore.class
+uff/ic/swlab/jena/sparql/function/hamming.class
+uff/ic/swlab/jena/sparql/function/cosine.class
+uff/ic/swlab/jena/sparql/function/isContainerMembershipProperty.class
+uff/ic/swlab/jena/sparql/function/jaroWinkler.class
+uff/ic/swlab/jena/sparql/function/levenshtein.class
+uff/ic/swlab/jena/sparql/function/stripAccents.class
+uff/ic/swlab/jena/sparql/aggregate/AccTMinMax.class
+uff/ic/swlab/jena/sparql/function/sequential.class
+uff/ic/swlab/jena/fuseki/cmd/FusekiCmd$1.class
+uff/ic/swlab/jena/fuseki/cmd/FusekiCmd.class
+uff/ic/swlab/jena/sparql/function/isAccented.class
+uff/ic/swlab/jena/sparql/function/jaccard.class
