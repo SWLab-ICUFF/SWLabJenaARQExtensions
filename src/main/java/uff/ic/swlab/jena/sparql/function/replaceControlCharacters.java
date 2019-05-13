@@ -29,7 +29,7 @@ public class replaceControlCharacters extends FunctionBase1 {
             throw new ExprEvalException("Not a string literal: " + FmtUtils.stringForNode(nv.asNode()));
         
         if(PATTERN.matcher(nv.getString()).matches()){
-            String NodeValueString = nv.getString().replaceAll(PATTERN.toString(), "");
+            String NodeValueString = nv.getString().replaceAll(PATTERN.toString(), " ");
             return NodeValue.makeString(NodeValueString);
         }else{
             return NodeValue.makeString(nv.getString());
