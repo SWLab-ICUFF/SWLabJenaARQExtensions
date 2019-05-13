@@ -17,7 +17,7 @@ import org.apache.jena.sparql.util.FmtUtils;
  */
 public class hasControlCharacter extends FunctionBase1 {
     
-    Pattern PATTERN = Pattern.compile(".*\\p{C}.*");
+    private final Pattern PATTERN = Pattern.compile(".*\\p{C}.*");
     
     public hasControlCharacter(){
         super();
