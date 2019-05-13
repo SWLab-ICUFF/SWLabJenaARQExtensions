@@ -17,7 +17,7 @@ import org.apache.jena.sparql.util.FmtUtils;
  */
 public class replaceControlCharacters extends FunctionBase1 {
     
-    Pattern PATTERN = Pattern.compile("\\p{C}");
+    private final Pattern PATTERN = Pattern.compile("\\p{C}");
     
     public replaceControlCharacters(){
         super();
@@ -29,8 +29,8 @@ public class replaceControlCharacters extends FunctionBase1 {
             throw new ExprEvalException("Not a string literal: " + FmtUtils.stringForNode(nv.asNode()));
         
         if(PATTERN.matcher(nv.getString()).matches()){
-            String NodeValueString = nv.getString().replaceAll(PATTERN.toString(), " ");
-            return NodeValue.makeString(NodeValueString);
+            String nodeValueString = nv.getString().replaceAll(PATTERN.toString(), " ");
+            return NodeValue.makeString(nodeValueString);
         }else{
             return NodeValue.makeString(nv.getString());
         }
