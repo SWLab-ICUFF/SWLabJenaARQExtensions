@@ -15,26 +15,22 @@ import org.apache.jena.sparql.util.FmtUtils;
  *
  * @author angelo
  */
-public class ReplaceisUnicode extends FunctionBase1 {
+public class hasControlCharacter extends FunctionBase1 {
     
     Pattern PATTERN = Pattern.compile(".*\\p{C}.*");
     
-    public ReplaceisUnicode(){
+    public hasControlCharacter(){
         super();
     }
+
 
     @Override
     public NodeValue exec(NodeValue nv) {
         if (!nv.isString())
             throw new ExprEvalException("Not a string literal: " + FmtUtils.stringForNode(nv.asNode()));
-        
-        if(PATTERN.matcher(nv.getString()).matches()){
-            String NodeValueString = nv.getString().replaceAll(PATTERN.toString(), "");
-            return NodeValue.makeString(NodeValueString);
-        }else{
-            return NodeValue.makeString(nv.getString());
-        }
-
+        return NodeValue.makeBoolean(PATTERN.matcher(nv.getString()).matches());
+            
+            
     }
     
 }
