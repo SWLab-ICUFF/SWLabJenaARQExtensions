@@ -17,7 +17,7 @@ import org.apache.jena.sparql.util.FmtUtils;
  */
 public class replaceControlCharacters extends FunctionBase1 {
     
-    private final Pattern PATTERN = Pattern.compile("\\p{C}");
+    private final Pattern PATTERN = Pattern.compile("[\\p{C}\\p{Z}]");
     
     public replaceControlCharacters(){
         super();
