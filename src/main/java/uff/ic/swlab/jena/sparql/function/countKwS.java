@@ -28,10 +28,12 @@ public class countKwS extends FunctionBase2 {
             throw new ExprEvalException("Not a string literal: " + FmtUtils.stringForNode(comment.asNode()));
         
         Integer count_repeat = 0;
+        String comment_ = comment.getString().replaceAll(" +", " ");
+        String kws_ = kws.getString().replaceAll(" +", " ");
         
-        String[] comment_vector = comment.getString().toLowerCase().split(" ");
+        String[] comment_vector = comment_.toLowerCase().split(" ");
         
-        String[] kws_vector = kws.getString().toLowerCase().split(" ");
+        String[] kws_vector = kws_.toLowerCase().split(" ");
         
         for (int i = 0; i < kws_vector.length; i++){
             
