@@ -5,6 +5,9 @@
  */
 package uff.ic.swlab.jena.sparql.function;
 
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 import org.apache.jena.sparql.expr.ExprEvalException;
 import org.apache.jena.sparql.expr.NodeValue;
 import org.apache.jena.sparql.function.FunctionBase2;
@@ -28,27 +31,39 @@ public class countKwS extends FunctionBase2 {
             throw new ExprEvalException("Not a string literal: " + FmtUtils.stringForNode(comment.asNode()));
         
         Integer count_repeat = 0;
+        
+      
         String comment_ = comment.getString().replaceAll(" +", " ");
         String kws_ = kws.getString().replaceAll(" +", " ");
         
+       
         String[] comment_vector = comment_.toLowerCase().split(" ");
         
         String[] kws_vector = kws_.toLowerCase().split(" ");
         
-        for (int i = 0; i < kws_vector.length; i++){
+        
+        Set<String> kws_set = new HashSet<>();
+        kws_set.addAll(Arrays.asList(kws_vector));
+        
+       
+        Set<String> comment_set = new HashSet<>();
+        comment_set.addAll(Arrays.asList(comment_vector));
+        
+      
+        for (String element_kws: kws_set){
             
-            for (int j = 0; j < comment_vector.length; j++){
+            for (String element_comment: comment_set){
                 
-                if (kws_vector[i].equals(comment_vector[j])){
+                if (element_kws.equals(element_comment))
                     
                     count_repeat++;
-                    break;
-                    
-                }
                 
             }
+            
+            
         }
         
+     
         return NodeValue.makeInteger(count_repeat);
         
         
