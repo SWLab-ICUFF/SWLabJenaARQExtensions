@@ -26,10 +26,11 @@ public class MeanCoocurrFreq implements Accumulator {
     protected long errorCount = 0;
     private boolean makeDistinct = false;
     private AggCustom agg = null;
-    private Map<String, AtomicInteger> freqs = new HashMap<>();
+    private Map<String, AtomicInteger> freqs = null;
 
     public MeanCoocurrFreq(AggCustom agg) {
         this.agg = agg;
+        this.freqs = new HashMap<>();
         this.makeDistinct = false;
     }
 
@@ -54,19 +55,18 @@ public class MeanCoocurrFreq implements Accumulator {
     }
 
     private void accumulate(NodeValue[] nv, Binding binding, FunctionEnv functionEnv) {
-        Set<String> kws = new HashSet<>(Arrays.asList(nv[0].toString().replaceAll(" +", " ").split(" ")));
-        String value = nv[1].toString();
+        Set<String> kws = new HashSet<>(Arrays.asList(nv[0].asString().trim().toLowerCase().replaceAll(" +", " ").split(" ")));
+        String value = nv[1].asString().toLowerCase();
         for (String kw : kws)
-            getFreq(kw).incrementAndGet();
+            if (value.contains(kw))
+                getFreq(kw).incrementAndGet();
     }
 
     private AtomicInteger getFreq(String kw) {
-        if (!freqs.containsKey(kw)) {
-            AtomicInteger freq = new AtomicInteger(0);
-            freqs.put(kw, freq);
-            return freq;
-        }
-        return freqs.get(kw);
+        AtomicInteger freq = freqs.get(kw);
+        if (freq == null)
+            freqs.put(kw, freq = new AtomicInteger(0));
+        return freq;
     }
 
     @Override
