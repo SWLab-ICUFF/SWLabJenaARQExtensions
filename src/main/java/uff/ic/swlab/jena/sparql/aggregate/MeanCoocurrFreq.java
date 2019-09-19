@@ -71,7 +71,10 @@ public class MeanCoocurrFreq implements Accumulator {
         double acumm = 0;
         for (AtomicInteger freq : freqs.values())
             acumm += freq.intValue();
-        return NodeValue.makeDouble(acumm / freqs.size());
+        if (acumm != 0)
+            return NodeValue.makeDouble(acumm / freqs.size());
+        else
+            return NodeValue.makeDouble(Double.NEGATIVE_INFINITY);
     }
 
 }
