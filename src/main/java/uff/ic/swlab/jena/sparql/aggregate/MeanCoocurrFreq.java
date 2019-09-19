@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeSet;
 import java.util.concurrent.atomic.AtomicInteger;
 import org.apache.jena.ext.com.google.common.util.concurrent.AtomicDouble;
 import org.apache.jena.sparql.engine.binding.Binding;
@@ -25,8 +26,9 @@ public class MeanCoocurrFreq implements Accumulator {
 
     public MeanCoocurrFreq(AggCustom agg) {
         this.agg = agg;
-        this.freqs = new HashMap<>();
         this.makeDistinct = false;
+
+        this.freqs = new HashMap<>();
     }
 
     @Override
@@ -51,7 +53,7 @@ public class MeanCoocurrFreq implements Accumulator {
 
     private void accumulate(NodeValue[] nv, Binding binding, FunctionEnv functionEnv) {
         Set<String> kws = new HashSet<>(Arrays.asList(nv[0].asString().trim().toLowerCase().replaceAll(" +", " ").split(" ")));
-        String value = nv[1].asString().toLowerCase();
+        Set<String> value = new TreeSet<>(Arrays.asList(nv[1].asString().trim().toLowerCase().replaceAll(" +", " ").split(" ")));
         for (String kw : kws)
             if (value.contains(kw))
                 getFreq(kw).incrementAndGet();
