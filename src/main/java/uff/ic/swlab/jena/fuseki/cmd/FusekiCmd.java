@@ -17,7 +17,7 @@ public class FusekiCmd {
         }
     };
 
-    private static final AccumulatorFactory tMinMaxFactory2 = new AccumulatorFactory() {
+    private static final AccumulatorFactory meanCoocurrFreqFactory = new AccumulatorFactory() {
         @Override
         public Accumulator createAccumulator(AggCustom agg, boolean distinct) {
             return new MeanCoocurrFreq(agg);
@@ -25,9 +25,10 @@ public class FusekiCmd {
     };
 
     public static void main(String[] args) {
-        String aggUri = "http://uff.ic.swlab.jena.sparql.aggregate/tMinMax";
-        AggregateRegistry.register(aggUri, tMinMaxFactory, NodeConst.nodeMinusOne);
-        AggregateRegistry.register(aggUri, tMinMaxFactory2, NodeConst.nodeMinusOne);
+        String aggUri1 = "http://uff.ic.swlab.jena.sparql.aggregate/tMinMax";
+        String aggUri2 = "http://uff.ic.swlab.jena.sparql.aggregate/meanCoocurrFreq";
+        AggregateRegistry.register(aggUri1, tMinMaxFactory, NodeConst.nodeMinusOne);
+        AggregateRegistry.register(aggUri2, meanCoocurrFreqFactory, NodeConst.nodeMinusOne);
 
         org.apache.jena.fuseki.cmd.FusekiCmd.main(args);
     }

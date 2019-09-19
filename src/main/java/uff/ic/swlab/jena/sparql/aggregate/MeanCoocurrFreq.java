@@ -5,6 +5,13 @@
  */
 package uff.ic.swlab.jena.sparql.aggregate;
 
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.atomic.AtomicInteger;
+import org.apache.jena.ext.com.google.common.util.concurrent.AtomicDouble;
 import org.apache.jena.sparql.engine.binding.Binding;
 import org.apache.jena.sparql.expr.ExprEvalException;
 import org.apache.jena.sparql.expr.ExprLib;
@@ -19,7 +26,7 @@ public class MeanCoocurrFreq implements Accumulator {
     protected long errorCount = 0;
     private boolean makeDistinct = false;
     private AggCustom agg = null;
-    private NodeValue[] minMaxSoFar = null;
+    private Map<String, AtomicInteger> freqs = new HashMap<>();
 
     public MeanCoocurrFreq(AggCustom agg) {
         this.agg = agg;
@@ -46,22 +53,28 @@ public class MeanCoocurrFreq implements Accumulator {
         }
     }
 
-    public void accumulate(NodeValue[] nv, Binding binding, FunctionEnv functionEnv) {
-        if (minMaxSoFar == null) {
-            minMaxSoFar = nv;
-            return;
+    private void accumulate(NodeValue[] nv, Binding binding, FunctionEnv functionEnv) {
+        Set<String> kws = new HashSet<>(Arrays.asList(nv[0].toString().replaceAll(" +", " ").split(" ")));
+        String value = nv[1].toString();
+        for (String kw : kws)
+            getFreq(kw).incrementAndGet();
+    }
+
+    private AtomicInteger getFreq(String kw) {
+        if (!freqs.containsKey(kw)) {
+            AtomicInteger freq = new AtomicInteger(0);
+            freqs.put(kw, freq);
+            return freq;
         }
-        int x = NodeValue.compareAlways(nv[1], minMaxSoFar[1]);
-        int y = NodeValue.compareAlways(nv[2], minMaxSoFar[2]);
-        if (x < 0 && y >= 0 || x == 0 && y > 0)
-            minMaxSoFar = nv;
+        return freqs.get(kw);
     }
 
     @Override
     public NodeValue getValue() {
-        if (errorCount == 0)
-            return minMaxSoFar[0];
-        return NodeValue.makeString("error");
+        double acumm = 0;
+        for (AtomicInteger freq : freqs.values())
+            acumm += freq.intValue();
+        return NodeValue.makeDouble(acumm / freqs.size());
     }
 
 }
