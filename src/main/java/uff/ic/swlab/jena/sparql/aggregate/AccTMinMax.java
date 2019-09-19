@@ -42,7 +42,7 @@ public class AccTMinMax implements Accumulator {
         }
     }
 
-    public void accumulate(NodeValue[] nv, Binding binding, FunctionEnv functionEnv) {
+    private void accumulate(NodeValue[] nv, Binding binding, FunctionEnv functionEnv) {
         if (minMaxSoFar == null) {
             minMaxSoFar = nv;
             return;
