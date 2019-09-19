@@ -5,6 +5,7 @@
  */
 package uff.ic.swlab.jena.sparql.function;
 
+import java.text.DecimalFormat;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
@@ -63,8 +64,10 @@ public class countKwS extends FunctionBase2 {
             
         }
         
-     
-        return NodeValue.makeInteger(count_repeat);
+        
+        double cobertura = (double) count_repeat/kws_set.size();
+       
+        return NodeValue.makeDouble(cobertura);
         
         
     }
