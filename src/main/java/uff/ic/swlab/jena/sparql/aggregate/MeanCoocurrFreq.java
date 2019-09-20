@@ -22,6 +22,7 @@ public class MeanCoocurrFreq implements Accumulator {
     private boolean makeDistinct = false;
     private AggCustom agg = null;
     private Map<String, AtomicInteger> freqs = null;
+    private int tuples = 0;
 
     public MeanCoocurrFreq(AggCustom agg) {
         this.agg = agg;
@@ -32,6 +33,7 @@ public class MeanCoocurrFreq implements Accumulator {
     @Override
     public final void accumulate(Binding binding, FunctionEnv functionEnv) {
         try {
+            tuples++;
             NodeValue[] nv = {
                 ExprLib.evalOrNull(agg.getExprList().get(0), binding, functionEnv),
                 ExprLib.evalOrNull(agg.getExprList().get(1), binding, functionEnv)
@@ -69,10 +71,16 @@ public class MeanCoocurrFreq implements Accumulator {
         double acumm = 0;
         for (AtomicInteger freq : freqs.values())
             acumm += freq.intValue();
-        if (acumm != 0)
-            return NodeValue.makeDouble(acumm / freqs.size());
-        else
+
+        if (acumm == 0)
             return NodeValue.makeDouble(Double.NEGATIVE_INFINITY);
+        else if (tuples == 1)
+            return NodeValue.makeDouble(1);
+        else {
+            int F = tuples;
+            double f = acumm / freqs.size();
+            return (NodeValue.makeDouble((1 - f / F) / (1 - 1 / F)));
+        }
     }
 
 }
