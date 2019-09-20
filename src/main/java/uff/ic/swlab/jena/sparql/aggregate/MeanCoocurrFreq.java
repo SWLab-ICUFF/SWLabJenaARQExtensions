@@ -7,7 +7,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.concurrent.atomic.AtomicInteger;
-import org.apache.jena.ext.com.google.common.util.concurrent.AtomicDouble;
 import org.apache.jena.sparql.engine.binding.Binding;
 import org.apache.jena.sparql.expr.ExprEvalException;
 import org.apache.jena.sparql.expr.ExprLib;
@@ -27,7 +26,6 @@ public class MeanCoocurrFreq implements Accumulator {
     public MeanCoocurrFreq(AggCustom agg) {
         this.agg = agg;
         this.makeDistinct = false;
-
         this.freqs = new HashMap<>();
     }
 
