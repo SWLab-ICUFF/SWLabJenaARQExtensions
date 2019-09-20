@@ -6,7 +6,7 @@ import org.apache.jena.sparql.expr.aggregate.AggCustom;
 import org.apache.jena.sparql.expr.aggregate.AggregateRegistry;
 import org.apache.jena.sparql.graph.NodeConst;
 import uff.ic.swlab.jena.sparql.aggregate.AccTMinMax;
-import uff.ic.swlab.jena.sparql.aggregate.MeanCoocurrFreq;
+import uff.ic.swlab.jena.sparql.aggregate.KwFreqScore;
 
 public class FusekiCmd {
 
@@ -20,13 +20,13 @@ public class FusekiCmd {
     private static final AccumulatorFactory meanCoocurrFreqFactory = new AccumulatorFactory() {
         @Override
         public Accumulator createAccumulator(AggCustom agg, boolean distinct) {
-            return new MeanCoocurrFreq(agg);
+            return new KwFreqScore(agg);
         }
     };
 
     public static void main(String[] args) {
         String aggUri1 = "http://uff.ic.swlab.jena.sparql.aggregate/tMinMax";
-        String aggUri2 = "http://uff.ic.swlab.jena.sparql.aggregate/meanCoocurrFreq";
+        String aggUri2 = "http://uff.ic.swlab.jena.sparql.aggregate/kwFreqScore";
         AggregateRegistry.register(aggUri1, tMinMaxFactory, NodeConst.nodeMinusOne);
         AggregateRegistry.register(aggUri2, meanCoocurrFreqFactory, NodeConst.nodeMinusOne);
 

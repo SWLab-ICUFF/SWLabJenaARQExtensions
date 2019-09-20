@@ -15,7 +15,7 @@ import org.apache.jena.sparql.expr.aggregate.Accumulator;
 import org.apache.jena.sparql.expr.aggregate.AggCustom;
 import org.apache.jena.sparql.function.FunctionEnv;
 
-public class MeanCoocurrFreq implements Accumulator {
+public class KwFreqScore implements Accumulator {
 
     static boolean DEBUG = false;
     protected long errorCount = 0;
@@ -24,7 +24,7 @@ public class MeanCoocurrFreq implements Accumulator {
     private Map<String, AtomicInteger> freqs = null;
     private int tuples = 0;
 
-    public MeanCoocurrFreq(AggCustom agg) {
+    public KwFreqScore(AggCustom agg) {
         this.agg = agg;
         this.makeDistinct = false;
         this.freqs = new HashMap<>();
