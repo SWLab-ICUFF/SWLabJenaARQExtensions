@@ -22,7 +22,11 @@ public class schema extends FunctionBase1 {
         if (!v1.asNode().getURI().contains(RDF.getURI())
                 && !v1.asNode().getURI().contains(RDFS.getURI())
                 && !v1.asNode().getURI().contains(OWL.getURI())
-                && !v1.asNode().getURI().equals(RDF.type.getURI()))
+                && v1.asNode().getURI().equals(RDF.type.getURI())
+                && v1.asNode().getURI().equals(RDFS.subClassOf.getURI())
+                && v1.asNode().getURI().equals(RDFS.member.getURI())
+                && v1.asNode().getURI().equals(RDF.first.getURI())
+                && v1.asNode().getURI().equals(RDF.rest.getURI()))
             return NodeValue.makeBoolean(false);
         else
             return NodeValue.makeBoolean(true);
