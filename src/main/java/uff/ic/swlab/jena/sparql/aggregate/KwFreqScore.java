@@ -70,6 +70,7 @@ public class KwFreqScore implements Accumulator {
     public NodeValue getValue() {
         if (errorCount > 0)
             return NodeValue.makeString("error");
+
         double acumm = 0;
         for (AtomicInteger freq : freqs.values())
             acumm += freq.intValue();
