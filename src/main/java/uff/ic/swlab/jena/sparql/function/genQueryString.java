@@ -6,8 +6,8 @@
 package uff.ic.swlab.jena.sparql.function;
 
 import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.stream.Collectors;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.jena.sparql.expr.ExprEvalException;
 import org.apache.jena.sparql.expr.NodeValue;
 import org.apache.jena.sparql.function.FunctionBase2;
@@ -18,55 +18,32 @@ import org.apache.jena.sparql.util.FmtUtils;
  * @author angelo
  */
 public class genQueryString extends FunctionBase2 {
-    
-    public genQueryString(){
+
+    public genQueryString() {
         super();
     }
 
     @Override
     public NodeValue exec(NodeValue kws, NodeValue comment) {
-         if (!kws.isString())
+        if (!kws.isString())
             throw new ExprEvalException("Not a string literal: " + FmtUtils.stringForNode(kws.asNode()));
         if (!comment.isString())
             throw new ExprEvalException("Not a string literal: " + FmtUtils.stringForNode(comment.asNode()));
-        
-        //deixar as strings somente com um espaçamento simples
-         String comment_ = comment.getString().replaceAll(" +", " ");
-         String kws_ = kws.getString().replaceAll(" +", " ");
-         
-         //colocar as strings em lowercase e separar por espaçamento simples
-         String[] comment_vector = comment_.toLowerCase().split(" ");
-         String[] kws_vector = kws_.toLowerCase().split(" ");
-         
-         //criando conjunto de palavras chaves evitando conter palavras chaves repetidas
-         Set<String> kws_set = new HashSet<>();
-         kws_set.addAll(Arrays.asList(kws_vector));
-         
-         //o mesmo para o kwsComment...
-         Set<String> comment_set = new HashSet<>();
-         comment_set.addAll(Arrays.asList(comment_vector));
-         
-         Integer aux = 0;
-         String new_kws = "";
-         for(String element_kws: kws_set){
-             aux = 0; 
-             for(String element_comment: comment_set){
-                 
-                 if (element_kws.equals(element_comment))
-                     break;
-                 else
-                     aux = aux + 1;
-               
-             }
-             if (aux == comment_set.size())
-                 new_kws = new_kws + " " + element_kws; 
-           
-         }
-         
-         return NodeValue.makeString(new_kws);
-        
+
+        //colocar as strings em lowercase e separar por espaçamento simples
+        String[] comment_vector = comment.getString().replaceAll(" +", " ").toLowerCase().split(" ");
+        String[] kws_vector = kws.getString().replaceAll(" +", " ").toLowerCase().split(" ");
+
+        for (int i = 0; i < kws_vector.length; i++)
+            for (String element_comment : comment_vector)
+                if (kws_vector[i].equals(element_comment)) {
+                    kws_vector[i] = null;
+                    break;
+                }
+
+        return NodeValue.makeString((Arrays.asList(kws_vector)).stream().filter(StringUtils::isNotBlank)
+                .collect(Collectors.joining(" ")));
+
     }
-    
-    
-    
+
 }
