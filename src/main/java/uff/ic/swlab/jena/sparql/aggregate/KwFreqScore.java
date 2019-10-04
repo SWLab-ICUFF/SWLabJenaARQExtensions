@@ -21,6 +21,7 @@ public class KwFreqScore implements Accumulator {
     protected long errorCount = 0;
     private boolean makeDistinct = false;
     private AggCustom agg = null;
+
     private Map<String, AtomicInteger> freqs = null;
     private int tuples = 0;
 
