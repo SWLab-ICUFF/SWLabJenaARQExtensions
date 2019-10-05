@@ -7,7 +7,7 @@ import org.apache.jena.sparql.expr.aggregate.AggregateRegistry;
 import org.apache.jena.sparql.graph.NodeConst;
 import uff.ic.swlab.jena.sparql.aggregate.AccTMinMax;
 import uff.ic.swlab.jena.sparql.aggregate.KwFreqScore;
-import uff.ic.swlab.jena.sparql.aggregate.kwNewSement;
+import uff.ic.swlab.jena.sparql.aggregate.MinimumCommonString;
 
 public class FusekiCmd {
 
@@ -28,7 +28,7 @@ public class FusekiCmd {
     private static final AccumulatorFactory kwNewSement = new AccumulatorFactory() {
         @Override
         public Accumulator createAccumulator(AggCustom agg, boolean distinct) {
-            return new kwNewSement(agg);
+            return new MinimumCommonString(agg);
         }
     };
 
