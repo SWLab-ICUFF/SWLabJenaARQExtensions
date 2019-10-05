@@ -25,7 +25,7 @@ public class FusekiCmd {
         }
     };
     
-    private static final AccumulatorFactory kwNewSement = new AccumulatorFactory() {
+    private static final AccumulatorFactory minimumCommonString = new AccumulatorFactory() {
         @Override
         public Accumulator createAccumulator(AggCustom agg, boolean distinct) {
             return new MinimumCommonString(agg);
@@ -36,10 +36,10 @@ public class FusekiCmd {
     public static void main(String[] args) {
         String aggUri1 = "http://uff.ic.swlab.jena.sparql.aggregate/tMinMax";
         String aggUri2 = "http://uff.ic.swlab.jena.sparql.aggregate/kwFreqScore";
-        String aggUri3 = "http://uff.ic.swlab.jena.sparql.aggregate/kwNewSement";
+        String aggUri3 = "http://uff.ic.swlab.jena.sparql.aggregate/minimumCommonString";
         AggregateRegistry.register(aggUri1, tMinMaxFactory, NodeConst.nodeMinusOne);
         AggregateRegistry.register(aggUri2, kwFreqScoreFactory, NodeConst.nodeMinusOne);
-        AggregateRegistry.register(aggUri3, kwNewSement, NodeConst.nodeMinusOne);
+        AggregateRegistry.register(aggUri3, minimumCommonString, NodeConst.nodeMinusOne);
 
         org.apache.jena.fuseki.cmd.FusekiCmd.main(args);
     }
