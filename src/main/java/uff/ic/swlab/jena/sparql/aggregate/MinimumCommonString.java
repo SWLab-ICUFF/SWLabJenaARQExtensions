@@ -7,6 +7,7 @@ package uff.ic.swlab.jena.sparql.aggregate;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.apache.commons.lang3.StringUtils;
@@ -59,14 +60,19 @@ public class MinimumCommonString implements Accumulator {
 
     private void constructKws(NodeValue[] nv, Binding binding, FunctionEnv functionEnv) {
         List<String> new_kws_vector = Arrays.asList(nv[0].asString().trim().toLowerCase().replaceAll(" +", " ").split(" "));
-
         if (kws.size() == 0)
             kws.addAll(new_kws_vector);
         else
-            for (String new_kws : new_kws_vector)
-                for (String kw : kws)
-                    if (!new_kws_vector.contains(kw))
-                        kws.remove(kw);
+            for (Iterator<String> iterator = kws.iterator(); iterator.hasNext(); ) {
+                String value = iterator.next();
+                if (!new_kws_vector.contains(value))
+                    iterator.remove();
+                    
+            }
+            //for (String new_kws : new_kws_vector)
+            //    for (String kw : kws)
+            //        if (!new_kws_vector.contains(kw))
+            //            kws.remove(kw);
 
     }
 
