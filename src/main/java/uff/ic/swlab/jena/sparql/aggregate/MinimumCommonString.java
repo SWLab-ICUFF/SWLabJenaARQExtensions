@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package uff.ic.swlab.jena.sparql.aggregate;
 
 import java.util.ArrayList;
@@ -41,9 +36,8 @@ public class MinimumCommonString implements Accumulator {
     @Override
     public final void accumulate(Binding binding, FunctionEnv functionEnv) {
         try {
-            NodeValue[] nv = {
-                ExprLib.evalOrNull(agg.getExprList().get(0), binding, functionEnv)
-            //ExprLib.evalOrNull(agg.getExprList().get(1), binding, functionEnv)
+            NodeValue[] nv = {ExprLib.evalOrNull(agg.getExprList().get(0), binding, functionEnv)
+
             };
             if (nv != null) {
                 try {
@@ -69,11 +63,6 @@ public class MinimumCommonString implements Accumulator {
                     iterator.remove();
 
             }
-        //for (String new_kws : new_kws_vector)
-        //    for (String kw : kws)
-        //        if (!new_kws_vector.contains(kw))
-        //            kws.remove(kw);
-
     }
 
     @Override

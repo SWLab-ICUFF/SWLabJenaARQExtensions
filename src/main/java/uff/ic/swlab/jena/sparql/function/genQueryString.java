@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package uff.ic.swlab.jena.sparql.function;
 
 import java.util.Arrays;
@@ -30,19 +25,17 @@ public class genQueryString extends FunctionBase2 {
         if (!value.isString())
             throw new ExprEvalException("Not a string literal: " + FmtUtils.stringForNode(value.asNode()));
 
-        //colocar as strings em lowercase e separar por espaçamento simples
         String[] value_vector = value.getString().replaceAll(" +", " ").toLowerCase().split(" ");
         String[] kws_vector = kws.getString().replaceAll(" +", " ").toLowerCase().split(" ");
 
         for (int i = 0; i < kws_vector.length; i++)
-            for (String element : value_vector)
-                if (kws_vector[i].equals(element)) {
+            for (String e : value_vector)
+                if (kws_vector[i].equals(e)) {
                     kws_vector[i] = null;
                     break;
                 }
 
-        return NodeValue.makeString((Arrays.asList(kws_vector)).stream().filter(StringUtils::isNotBlank)
-                .collect(Collectors.joining(" ")));
+        return NodeValue.makeString((Arrays.asList(kws_vector)).stream().filter(StringUtils::isNotBlank).collect(Collectors.joining(" ")));
 
     }
 
