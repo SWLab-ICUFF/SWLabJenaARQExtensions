@@ -24,19 +24,19 @@ public class genQueryString extends FunctionBase2 {
     }
 
     @Override
-    public NodeValue exec(NodeValue kws, NodeValue comment) {
+    public NodeValue exec(NodeValue kws, NodeValue value) {
         if (!kws.isString())
             throw new ExprEvalException("Not a string literal: " + FmtUtils.stringForNode(kws.asNode()));
-        if (!comment.isString())
-            throw new ExprEvalException("Not a string literal: " + FmtUtils.stringForNode(comment.asNode()));
+        if (!value.isString())
+            throw new ExprEvalException("Not a string literal: " + FmtUtils.stringForNode(value.asNode()));
 
         //colocar as strings em lowercase e separar por espaçamento simples
-        String[] comment_vector = comment.getString().replaceAll(" +", " ").toLowerCase().split(" ");
+        String[] value_vector = value.getString().replaceAll(" +", " ").toLowerCase().split(" ");
         String[] kws_vector = kws.getString().replaceAll(" +", " ").toLowerCase().split(" ");
 
         for (int i = 0; i < kws_vector.length; i++)
-            for (String element_comment : comment_vector)
-                if (kws_vector[i].equals(element_comment)) {
+            for (String element : value_vector)
+                if (kws_vector[i].equals(element)) {
                     kws_vector[i] = null;
                     break;
                 }
