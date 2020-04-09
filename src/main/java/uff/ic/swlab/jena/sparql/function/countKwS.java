@@ -32,8 +32,8 @@ public class countKwS extends FunctionBase2 {
 
         Integer count_repeat = 0;
 
-        String comment_ = comment.getString().replaceAll(" +", " ");
-        String kws_ = kws.getString().replaceAll(" +", " ");
+        String comment_ = comment.getString().replaceAll(" +", " ").replaceAll("\"", " ");
+        String kws_ = kws.getString().replaceAll(" +", " ").replaceAll("\"", " ");
 
         String[] comment_vector = comment_.toLowerCase().split(" ");
 

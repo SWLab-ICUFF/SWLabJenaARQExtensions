@@ -53,11 +53,13 @@ public class KwFreqScore implements Accumulator {
     }
 
     private void accumulate(NodeValue[] nv, Binding binding, FunctionEnv functionEnv) {
-        Set<String> kws = new HashSet<>(Arrays.asList(nv[0].asString().trim().toLowerCase().replaceAll(" +", " ").split(" ")));
-        Set<String> value = new TreeSet<>(Arrays.asList(nv[1].asString().trim().toLowerCase().replaceAll(" +", " ").split(" ")));
-        for (String kw : kws)
+        Set<String> kws = new HashSet<>(Arrays.asList(nv[0].asString().trim().toLowerCase().replaceAll(" +", " ").replaceAll("\"", " ").split(" ")));
+        Set<String> value = new TreeSet<>(Arrays.asList(nv[1].asString().trim().toLowerCase().replaceAll(" +", " ").replaceAll("\"", " ").split(" ")));
+        for (String kw : kws){
+                //System.out.println(kw);
             if (value.contains(kw))
                 getFreq(kw).incrementAndGet();
+        }
     }
 
     private AtomicInteger getFreq(String kw) {
