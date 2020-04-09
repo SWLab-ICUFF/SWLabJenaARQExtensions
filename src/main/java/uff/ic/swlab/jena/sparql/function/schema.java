@@ -18,19 +18,13 @@ public class schema extends FunctionBase1 {
     public NodeValue exec(NodeValue v1) {
         if (!v1.isIRI())
             throw new ExprEvalException("Not a IRI: " + FmtUtils.stringForNode(v1.asNode()));
-        
-//        if (v1.asNode().getURI().equals(RDF.type.getURI())){
-//            return NodeValue.makeBoolean(true);
-//        }
-        //não irar passar por caminhos do tipo RDF, RDFS, e OWL
         if (!v1.asNode().getURI().contains(RDF.getURI())
                 && !v1.asNode().getURI().contains(RDFS.getURI())
                 && !v1.asNode().getURI().contains(OWL.getURI())
                 || v1.asNode().getURI().equals(RDF.type.getURI())
                 || v1.asNode().getURI().equals(RDFS.subClassOf.getURI())
-                || v1.asNode().getURI().equals(RDFS.member.getURI())
-                || v1.asNode().getURI().equals(RDF.first.getURI())
-                || v1.asNode().getURI().equals(RDF.rest.getURI()))
+                || v1.asNode().getURI().equals(RDFS.member.getURI()))
+
             return NodeValue.makeBoolean(false);
         else
             return NodeValue.makeBoolean(true);
