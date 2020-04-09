@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package uff.ic.swlab.jena.sparql.aggregate;
 
 import java.util.ArrayList;
@@ -30,20 +25,19 @@ public class MinimumCommonString implements Accumulator {
     private boolean makeDistinct = false;
     private AggCustom agg = null;
 
-    private List<String> kws;
+    private List<String> newKws;
 
     public MinimumCommonString(AggCustom agg) {
         this.agg = agg;
         this.makeDistinct = false;
-        this.kws = new ArrayList<>();
+        this.newKws = new ArrayList<>();
     }
 
     @Override
     public final void accumulate(Binding binding, FunctionEnv functionEnv) {
         try {
-            NodeValue[] nv = {
-                ExprLib.evalOrNull(agg.getExprList().get(0), binding, functionEnv)
-            //ExprLib.evalOrNull(agg.getExprList().get(1), binding, functionEnv)
+            NodeValue[] nv = {ExprLib.evalOrNull(agg.getExprList().get(0), binding, functionEnv)
+
             };
             if (nv != null) {
                 try {
@@ -59,21 +53,16 @@ public class MinimumCommonString implements Accumulator {
     }
 
     private void constructKws(NodeValue[] nv, Binding binding, FunctionEnv functionEnv) {
-        List<String> new_kws_vector = Arrays.asList(nv[0].asString().trim().toLowerCase().replaceAll(" +", " ").split(" "));
-        if (kws.size() == 0)
-            kws.addAll(new_kws_vector);
+        List<String> nodeValue = Arrays.asList(nv[0].asString().trim().toLowerCase().replaceAll(" +", " ").split(" "));
+        if (newKws.size() == 0)
+            newKws.addAll(nodeValue);
         else
-            for (Iterator<String> iterator = kws.iterator(); iterator.hasNext(); ) {
+            for (Iterator<String> iterator = newKws.iterator(); iterator.hasNext();) {
                 String value = iterator.next();
-                if (!new_kws_vector.contains(value))
+                if (!nodeValue.contains(value))
                     iterator.remove();
-                    
-            }
-            //for (String new_kws : new_kws_vector)
-            //    for (String kw : kws)
-            //        if (!new_kws_vector.contains(kw))
-            //            kws.remove(kw);
 
+            }
     }
 
     @Override
@@ -81,7 +70,7 @@ public class MinimumCommonString implements Accumulator {
         if (errorCount > 0)
             return NodeValue.makeString("error");
         else
-            return NodeValue.makeString(kws.stream().filter(StringUtils::isNoneBlank).collect(Collectors.joining(" ")));
+            return NodeValue.makeString(newKws.stream().filter(StringUtils::isNoneBlank).collect(Collectors.joining(" ")));
     }
 
 }

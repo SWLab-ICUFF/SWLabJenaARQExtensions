@@ -1,3 +1,3 @@
 # SWLabJenaARQExtensions
 
-Custom expression and aggregate functions for JENA ARQ.
+Customized extensions for JENA ARQ query engine.
