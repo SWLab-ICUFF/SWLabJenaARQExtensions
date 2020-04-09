@@ -25,8 +25,8 @@ public class genQueryString extends FunctionBase2 {
         if (!value.isString())
             throw new ExprEvalException("Not a string literal: " + FmtUtils.stringForNode(value.asNode()));
 
-        String[] value_vector = value.getString().replaceAll(" +", " ").toLowerCase().split(" ");
-        String[] kws_vector = kws.getString().replaceAll(" +", " ").toLowerCase().split(" ");
+        String[] value_vector = value.getString().replaceAll(" +", " ").replace(".", "").replace(":", "").toLowerCase().split(" ");
+        String[] kws_vector = kws.getString().replaceAll(" +", " ").replace(".", "").replace(":", "").toLowerCase().split(" ");
 
         for (int i = 0; i < kws_vector.length; i++)
             for (String e : value_vector)
