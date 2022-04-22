@@ -1,6 +1,5 @@
 package uff.ic.swlab.jena.sparql.propertyFunction;
 
-import org.apache.jena.atlas.logging.Log;
 import org.apache.jena.graph.Node;
 import org.apache.jena.graph.Triple;
 import org.apache.jena.sparql.algebra.Algebra;
@@ -37,10 +36,9 @@ public class testePF extends PFuncListAndSimple {
         // but we illustrate testing here.
         Node nodeVar = subject.getArg();
         String pattern = NodeUtils.stringLiteral(object);
-        if (pattern == null) {
-            Log.warn(this, "Pattern must be a plain literal or xsd:string: " + object.getArg());
+        if (pattern == null)
+            //Log.warn(this, "Pattern must be a plain literal or xsd:string: " + object.getArg());
             return QueryIterNullIterator.create(execCxt);
-        }
 
         // Better
         // Build a SPARQL algebra expression
